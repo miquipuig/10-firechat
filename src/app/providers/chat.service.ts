@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
 import { Mensaje } from '../interface/mensaje.interface';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
 
 // import { Observable } from 'rxjs';
  import { map } from 'rxjs/operators';
@@ -15,8 +17,13 @@ export class ChatService {
 
   public chats: Mensaje[] = [];
 
-  constructor(private afs: AngularFirestore) {
- 
+  constructor(private afs: AngularFirestore, public afAuth: AngularFireAuth) { }
+
+  login() {
+    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+  }
+  logout() {
+    this.afAuth.auth.signOut();
   }
 
   cargarMensajes() {
@@ -42,5 +49,7 @@ export class ChatService {
     };
     return this.itemsCollection.add(mensaje);
   }
+
+  
 }
 
