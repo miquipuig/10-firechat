@@ -8,12 +8,12 @@ import { ChatService } from '../../providers/chat.service';
 })
 export class LoginComponent  {
 
-  constructor() { public chatService: ChatService}
+  constructor(public cs: ChatService ) { }
 
-  ingresar( proveedor: string){
-    
-  console.log(proveedor);
+  ingresar( proveedor: string ) {
   
-}
+    this.cs.login(proveedor);
+    console.log(proveedor);
+  }
 
 }
