@@ -7,6 +7,7 @@ import { auth } from 'firebase/app';
 
 // import { Observable } from 'rxjs';
  import { map } from 'rxjs/operators';
+import { ThrowStmt } from '@angular/compiler';
 // import 'rxjs/Rx';
 
 @Injectable({
@@ -35,9 +36,14 @@ export class ChatService {
    }
 
   login(proveedor: string) {
+    if(proveedor==='google'){
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    }else{
+      this.afAuth.auth.signInWithPopup(new auth.TwitterAuthProvider());
+    }
   }
   logout() {
+    this.usuario= {};
     this.afAuth.auth.signOut();
   }
 
@@ -58,7 +64,8 @@ export class ChatService {
 //TODO falta el UID del usuario
   agregarMensaje( texto: string){
     let mensaje: Mensaje = {
-    nombre: 'Demo',
+    nombre: this.usuario.nombre,
+    uid: this.usuario.uid,
     mensaje: texto,
     fecha: new Date().getTime()
     };
